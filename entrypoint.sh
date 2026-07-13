@@ -1,17 +1,17 @@
 #!/bin/sh
 
-if [ -z "$CHECK_URL" ]; then
-    echo "ERROR: CHECK_URL is not set"
-    exit 1
-fi
-if [ -z "$REPORT_URL" ]; then
-    echo "ERROR: REPORT_URL is not set"
+# Validate required environment variables
+if [ -z "$CHECK_URL" ] || [ -z "$REPORT_URL" ]; then
+    echo "ERROR: CHECK_URL and REPORT_URL must be set" >&2
     exit 1
 fi
 
-export CRON=${CRON:-"* * * * *"}
+# Set cron schedule with default (every minute)
+export CRON="${CRON:-* * * * *}"
 
 echo "Healthchecker starting."
+
+# Enable verbose logging if DEBUG is set
 LOG_LEVEL=9
 if [ -n "$DEBUG" ]; then
     LOG_LEVEL=8
@@ -20,6 +20,6 @@ if [ -n "$DEBUG" ]; then
     echo "CRON=${CRON}"
 fi
 
-
+# Schedule health check via cron and run daemon
 echo "${CRON} /check.sh" > /etc/crontabs/root
-crond -f -l $LOG_LEVEL
+crond -f -l "$LOG_LEVEL"
