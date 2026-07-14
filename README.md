@@ -1,6 +1,6 @@
 # Healthchecker
 
-Minimal docker image for arbitrary command healthchecking.
+Minimal docker image for website healthchecking.
 
 ## Environment Variables
 
@@ -9,6 +9,27 @@ Minimal docker image for arbitrary command healthchecking.
     - failure will be sent to `REPORT_URL/fail`.
 - `CRON`: The cron expression for scheduling healthchecks. (default: `* * * * *`)
 - `DEBUG`: If set, environment variables and cron runs will be logged.
+
+## Usage example
+
+Docker:
+
+```bash
+docker run -d --init -e CHECK_URL=<insert check URL> -e REPORT_URL=<insert report URL> gabay/healthchecker
+```
+
+Docker Compose:
+
+```yaml
+services:
+  healthchecker:
+    image: gabay/healthchecker
+    init: true
+    environment:
+      - CHECK_URL=<insert check URL>
+      - REPORT_URL=<insert report URL>
+      - CRON="*/5 * * * *"
+```
 
 ## Deployment:
 
