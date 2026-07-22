@@ -8,6 +8,7 @@ fi
 
 # Set cron schedule with default (every minute)
 export CRON="${CRON:-* * * * *}"
+export REPORT_FAILURE_THRESHOLD="${REPORT_FAILURE_THRESHOLD:-1}"
 
 echo "Healthchecker starting."
 
@@ -18,6 +19,7 @@ if [ -n "$DEBUG" ]; then
     echo "CHECK_URL=${CHECK_URL}"
     echo "REPORT_URL=${REPORT_URL}"
     echo "CRON=${CRON}"
+    echo "REPORT_FAILURE_THRESHOLD=${REPORT_FAILURE_THRESHOLD}"
 fi
 
 # Schedule health check via cron and run daemon
